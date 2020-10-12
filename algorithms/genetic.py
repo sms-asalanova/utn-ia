@@ -51,7 +51,7 @@ def selection_pair(population: Population, fitness_func: FitnessFunc) -> Populat
 
 
 def sort_population(population: Population, fitness_func: FitnessFunc) -> Population:
-    return sorted(population, key=fitness_func, reverse=True)
+    return sorted(population, key=fitness_func)
 
 
 def genome_to_string(genome: Genome) -> str:
@@ -85,15 +85,16 @@ def run_evolution(
         -> Tuple[Population, int]:
     population = populate_func()
 
+    best_value = 0
     for i in range(generation_limit):
         # Ordena poblacion segun su aptitud para tener los mejores en los primeros indices.
-        population = sorted(population, key=lambda genome: fitness_func(genome), reverse=True)
+        population = sorted(population, key=lambda genome: fitness_func(genome))
 
         if printer is not None:
             printer(population, i, fitness_func)
 
         # Si alcanza el limite de aptitud, termina la evolucion.
-        if fitness_func(population[0]) >= fitness_limit:
+        if fitness_func(population[0]) <= fitness_limit:
             break
         # Tomo los 2 mejores de la poblacion para que esten en la siguiente iteracion.
         next_generation = population[0:2]
@@ -107,5 +108,13 @@ def run_evolution(
             next_generation += [offspring_a, offspring_b]
 
         population = next_generation
+
+        # for r in range(int(len(population))):
+        #
+        #     print("Gen: " + str(r) + ", desvio: "  + str(fitness_func(population[r])))
+        if best_value != str(fitness_func(population[0])):
+            best_value = str(fitness_func(population[0]))
+            print("Iteracion: " + str(i))
+            print("XXXXXXXXXXXXXXXX Mejor gen: " + str(fitness_func(population[0])))
 
     return population, i
