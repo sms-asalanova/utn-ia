@@ -15,13 +15,13 @@ print("----------")
 
 with timer():
 	population, generations = genetic.run_evolution(
-		populate_func=partial(genetic.generate_population, size=15, genome_length=genome_length),
+		populate_func=partial(genetic.generate_population, size=20, genome_length=genome_length),
 		fitness_func=partial(fixture.fitness, teams=teams),
-		fitness_limit=1,
-		generation_limit=300
+		fitness_limit=0.5,
+		generation_limit=3000
 	)
 
 # print(population[0])
 # print(len(population))
-# sack = fixture.from_genome(population[0], teams)
-# fixture.print_stats(sack)
+sack = fixture.from_genome(population[0], binaryBits, teams)
+fixture.print_stats(sack)

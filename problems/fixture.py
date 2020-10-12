@@ -54,6 +54,8 @@ def fitness(genome: Genome, teams: [Team]) -> int:
     for team in teams:
         penalty = 0
         team_km = 0
+        teams_played = []
+        repeated_team = False
 
         for day in days:
             games_played = 0
@@ -64,13 +66,25 @@ def fitness(genome: Genome, teams: [Team]) -> int:
                 localTeam = ''.join(str(e) for e in list(match[0: indexA]))
                 visitingTeam = ''.join(str(e) for e in list(match[indexA: indexB]))
 
-                if localTeam == team.binaryId or visitingTeam == team.binaryId:
+                if localTeam == team.binaryId:
                     games_played += 1
+                    teams_played.append(visitingTeam)
+                    if len(list(filter(lambda x: x == visitingTeam, teams_played))) > 1:
+                        repeated_team = True
+
+                if visitingTeam == team.binaryId:
+                    games_played += 1
+                    teams_played.append(localTeam)
+                    if len(list(filter(lambda x: x == localTeam, teams_played))) > 1:
+                        repeated_team = True
 
                 if visitingTeam == team.binaryId: #El equipo deberia tener un campo que lo relacione con el binario
                     team_km += getDistanceTraveled(localTeam, visitingTeam)
+
             if games_played != 1:
-                penalty += 1
+                return 999
+        if repeated_team:
+            return 999
 
         teams_km.append(team_km) #Funcion que obtiene la distancia de la matriz de distancias
 
@@ -94,11 +108,11 @@ def getDistanceTraveled(localTeam, visitingTeam) -> int:
 
 # Funciones para imprimir por pantalla los resultados de la ejecucion del algoritmo.
 
-def from_genome(genome: Genome, things: [Team]) -> [Team]:
+def from_genome(genome: Genome, team_length: int, things: [Team]) -> [Team]:
     result = []
-    for i, thing in enumerate(things):
-        if genome[i] == 1:
-            result += [thing] #Concatena los objetos como listas.
+    teams_binary = numpy.array_split(numpy.array(genome), (len(genome) / team_length))
+    for i, binary in enumerate(teams_binary):
+        result += list(filter(lambda x: x.binaryId == ''.join(str(e) for e in list(binary)), things))
 
     return result
 
@@ -116,5 +130,5 @@ def weight(things: [Team]):
 
 def print_stats(things: [Team]):
     print(f"Things: {to_string(things)}")
-    print(f"Value {value(things)}")
-    print(f"Weight: {weight(things)}")
+    # print(f"Value {value(things)}")
+    # print(f"Weight: {weight(things)}")
