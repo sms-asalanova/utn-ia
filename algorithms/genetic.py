@@ -109,9 +109,13 @@ def run_evolution(
 
         population = next_generation
 
-        # for r in range(int(len(population))):
-        #
-        #     print("Gen: " + str(r) + ", desvio: "  + str(fitness_func(population[r])))
+        for r in range(int(len(population))):
+
+            print("Gen: " + str(r) + ", desvio: "  + str(fitness_func(population[r])))
+        # print("Iteracion: " + str(i))
+
+        if i % 1000 == 0:
+            print("Iteracion: " + str(i))
 
         if best_value != str(fitness_func(population[0])):
             best_value = str(fitness_func(population[0]))
@@ -119,3 +123,4 @@ def run_evolution(
             print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX Mejor gen: " + str(fitness_func(population[0])))
 
     return population, i
+
