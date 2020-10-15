@@ -13,108 +13,108 @@ Team = namedtuple('Team', ['name', 'size', 'binaryId', 'city'])
 City = namedtuple('City', ['name', 'location']) #TODO: Definir que es "location",  coordenadas, ubicacion en la matriz de distancia?
 
 # Primer fixture mas chico, 4 equipos
-# fixture_1 = [
-#     Day(1, [
-#         Match(0, 1),
-#         Match(2, 3)
-#     ]),
-#
-#     Day(2, [
-#         Match(1, 2),
-#         Match(3, 0)
-#     ]),
-#
-#     Day(3, [
-#         Match(0, 2),
-#         Match(1, 3)
-#     ])
-# ]
-#
-# teams = [
-#     Team('Boca', 'Grande', '00', City('Buenos Aires', '')),
-#     Team('River', 'Grande', '01', City('Buenos Aires', '')),
-#     Team('Racing', 'Grande', '10', City('Buenos Aires', '')),
-#     Team('Talleres', 'Normal', '11', City('Buenos Aires', '')),
-# ]
-#
-# distance_matrix = [[0,11,41,25],
-#                    [11,0,1,4],
-#                    [41,1,0,30],
-#                    [25,4,30,0]]
-
-# 8 Equipos
 fixture_1 = [
     Day(1, [
-        Match(5, 2),
-        Match(1, 6),
-        Match(7, 4),
-        Match(3, 0)
-
+        Match(0, 1),
+        Match(2, 3)
     ]),
 
     Day(2, [
-        Match(6, 5),
-        Match(4, 2),
-        Match(0, 1),
-        Match(3, 7)
+        Match(1, 2),
+        Match(3, 0)
     ]),
 
     Day(3, [
-        Match(5, 4),
-        Match(6, 0),
-        Match(2, 3),
-        Match(1, 7)
-    ]),
-
-    Day(4, [
-        Match(0, 5),
-        Match(3, 4),
-        Match(7, 6),
-        Match(1, 2)
-    ]),
-
-    Day(5, [
-        Match(5, 3),
-        Match(0, 7),
-        Match(4, 1),
-        Match(6, 2)
-    ]),
-
-    Day(6, [
-        Match(7, 5),
-        Match(1, 3),
-        Match(2, 0),
-        Match(6, 4)
-    ]),
-
-    Day(7, [
-        Match(5, 1),
-        Match(7, 2),
-        Match(3, 6),
-        Match(0, 4)
+        Match(0, 2),
+        Match(1, 3)
     ])
 ]
 
-# 8 Equipos
 teams = [
-    Team('Boca', 'Grande', '000', City('Buenos Aires', '')),
-    Team('River', 'Grande', '001', City('Buenos Aires', '')),
-    Team('Racing', 'Grande', '010', City('Buenos Aires', '')),
-    Team('Talleres', 'Normal', '011', City('Buenos Aires', '')),
-    Team('Ferro', 'Normal', '100', City('Buenos Aires', '')),
-    Team('San Lorenzo', 'Normal', '101', City('Buenos Aires', '')),
-    Team('Huracan', 'Normal', '110', City('Buenos Aires', '')),
-    Team('Velez', 'Normal', '111', City('Buenos Aires', '')),
+    Team('Boca', 'Grande', '00', City('Buenos Aires', '')),
+    Team('River', 'Grande', '01', City('Buenos Aires', '')),
+    Team('Racing', 'Grande', '10', City('Buenos Aires', '')),
+    Team('Talleres', 'Normal', '11', City('Buenos Aires', '')),
 ]
 
-distance_matrix = [ [0  ,5  ,115,300 ,25 ,855,10  ,30],
-                    [5  ,0  ,250,11  ,5  ,1  ,15  ,11],
-                    [115,250,0  ,41  ,600,58 ,81  ,41],
-                    [300,11 ,41 ,0   ,30 ,25 ,2555,25],
-                    [25 ,5  ,600,30  ,0  ,58 ,20  ,35],
-                    [855,1  ,58 ,25  ,58 ,0  ,50  ,850],
-                    [10 ,15 ,81 ,2555,20 ,50 ,0   ,59],
-                    [30 ,11 ,41 ,25  ,35 ,850,59  ,0]]
+distance_matrix = [[0,11,41,25],
+                   [11,0,1,4],
+                   [41,1,0,30],
+                   [25,4,30,0]]
+
+# 8 Equipos
+# fixture_1 = [
+#     Day(1, [
+#         Match(5, 2),
+#         Match(1, 6),
+#         Match(7, 4),
+#         Match(3, 0)
+#
+#     ]),
+#
+#     Day(2, [
+#         Match(6, 5),
+#         Match(4, 2),
+#         Match(0, 1),
+#         Match(3, 7)
+#     ]),
+#
+#     Day(3, [
+#         Match(5, 4),
+#         Match(6, 0),
+#         Match(2, 3),
+#         Match(1, 7)
+#     ]),
+#
+#     Day(4, [
+#         Match(0, 5),
+#         Match(3, 4),
+#         Match(7, 6),
+#         Match(1, 2)
+#     ]),
+#
+#     Day(5, [
+#         Match(5, 3),
+#         Match(0, 7),
+#         Match(4, 1),
+#         Match(6, 2)
+#     ]),
+#
+#     Day(6, [
+#         Match(7, 5),
+#         Match(1, 3),
+#         Match(2, 0),
+#         Match(6, 4)
+#     ]),
+#
+#     Day(7, [
+#         Match(5, 1),
+#         Match(7, 2),
+#         Match(3, 6),
+#         Match(0, 4)
+#     ])
+# ]
+#
+# # 8 Equipos
+# teams = [
+#     Team('Boca', 'Grande', '000', City('Buenos Aires', '')),
+#     Team('River', 'Grande', '001', City('Buenos Aires', '')),
+#     Team('Racing', 'Grande', '010', City('Buenos Aires', '')),
+#     Team('Talleres', 'Normal', '011', City('Buenos Aires', '')),
+#     Team('Ferro', 'Normal', '100', City('Buenos Aires', '')),
+#     Team('San Lorenzo', 'Normal', '101', City('Buenos Aires', '')),
+#     Team('Huracan', 'Normal', '110', City('Buenos Aires', '')),
+#     Team('Velez', 'Normal', '111', City('Buenos Aires', '')),
+# ]
+#
+# distance_matrix = [ [0  ,5  ,115,300 ,25 ,855,10  ,30],
+#                     [5  ,0  ,250,11  ,5  ,1  ,15  ,11],
+#                     [115,250,0  ,41  ,600,58 ,81  ,41],
+#                     [300,11 ,41 ,0   ,30 ,25 ,2555,25],
+#                     [25 ,5  ,600,30  ,0  ,58 ,20  ,35],
+#                     [855,1  ,58 ,25  ,58 ,0  ,50  ,850],
+#                     [10 ,15 ,81 ,2555,20 ,50 ,0   ,59],
+#                     [30 ,11 ,41 ,25  ,35 ,850,59  ,0]]
 
 
 
@@ -312,29 +312,27 @@ distance_matrix = [ [0  ,5  ,115,300 ,25 ,855,10  ,30],
 # N = 16
 # distance_matrix = squareform(np.random.randint(3000, size=N*(N-1)//2))
 
-# Recorro el gen y por cada equipo, busco los partidos donde fue visitante y calculo los kms recorridos.
-# Cuando tengo en una lista los kms recorridos por todos los equipos, calculo la desviacion estandar del gen.
+
 def fitness(genome: Genome, teams: [Team]) -> int:
-    teams_km = []
+    value = 0
+    teams_km = [0] * len(teams)
     binary_teams = numpy.array_split(numpy.array(genome), len(teams))
 
     # Penalizo con una desviacion enorme a un gen que tenga equipos repetidos.
     if(len(binary_teams) != len(set(tuple(row) for row in binary_teams))):
-        return 9999
+        value +=  (len(binary_teams) - len(set(tuple(row) for row in binary_teams))) * 200
+        # return 9999
+    for day in fixture_1:
+        for match in day.matches:
+            for i, team in enumerate(binary_teams):
 
-    for i, team in enumerate(binary_teams):
-        team_km = 0
-
-        for day in fixture_1:
-            for match in day.matches:
-                team_string_number = ''.join(str(e) for e in list(team))
-                visitingTeam = ''.join(str(e) for e in list(binary_teams[match.local_team_number]))
                 if (match.visiting_team_number == i):
-                    team_km += getDistanceTraveled(visitingTeam, team_string_number)
-        teams_km.append(team_km)
-    # 2 Calcular la desviacion estandar
-    value = statistics.stdev(teams_km)
+                    localTeam = ''.join(str(e) for e in list(binary_teams[match.local_team_number]))
+                    team_string_number = ''.join(str(e) for e in list(team))
+                    teams_km[i] += getDistanceTraveled(localTeam, team_string_number)
 
+    # 2 Calcular la desviacion estandar
+    value += statistics.stdev(teams_km)
     return value
 
 # Funcion que obtiene la distancia de la matriz de distancias
@@ -374,3 +372,4 @@ def print_stats(things: [Team]):
     print(f"Equipos: {to_string(things)}")
     # print(f"Value {value(things)}")
     # print(f"Weight: {weight(things)}")
+

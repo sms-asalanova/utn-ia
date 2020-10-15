@@ -45,7 +45,7 @@ def population_fitness(population: Population, fitness_func: FitnessFunc) -> int
 def selection_pair(population: Population, fitness_func: FitnessFunc) -> Population:
     return choices(
         population=population,
-        weights=[fitness_func(gene) for gene in population],
+        weights=[-fitness_func(gene) for gene in population],
         k=2
     )
 
@@ -103,19 +103,22 @@ def run_evolution(
         for j in range(int(len(population) / 2) - 1):
             parents = selection_func(population, fitness_func)
             offspring_a, offspring_b = crossover_func(parents[0], parents[1])
+
             offspring_a = mutation_func(offspring_a)
             offspring_b = mutation_func(offspring_b)
             next_generation += [offspring_a, offspring_b]
 
         population = next_generation
 
-        for r in range(int(len(population))):
-
-            print("Gen: " + str(r) + ", desvio: "  + str(fitness_func(population[r])))
+        # for r in range(int(len(population))):
+        #     print("Gen: " + str(r) + ", desvio: "  + str(fitness_func(population[r])))
         # print("Iteracion: " + str(i))
+        # print("Iteracion: " + str(i) + ", Promedio: %f" % (population_fitness(population, fitness_func) / len(population)))
 
-        if i % 1000 == 0:
-            print("Iteracion: " + str(i))
+        if i % 100 == 0:
+            print("Iteracion: " + str(i) + ", Promedio: %f" % (population_fitness(population, fitness_func) / len(population)))
+
+            # print("Iteracion: " + str(i))
 
         if best_value != str(fitness_func(population[0])):
             best_value = str(fitness_func(population[0]))
@@ -123,4 +126,3 @@ def run_evolution(
             print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX Mejor gen: " + str(fitness_func(population[0])))
 
     return population, i
-
