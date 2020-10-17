@@ -317,7 +317,8 @@ def fitness(genome: Genome, teams: [Team]) -> int:
     value = 0
     teams_km = [0] * len(teams)
     binary_teams = numpy.array_split(numpy.array(genome), len(teams))
-
+    print(genome)
+    print(binary_teams)
     # Penalizo con una desviacion enorme a un gen que tenga equipos repetidos.
     if(len(binary_teams) != len(set(tuple(row) for row in binary_teams))):
         value +=  (len(binary_teams) - len(set(tuple(row) for row in binary_teams))) * 200
@@ -329,6 +330,7 @@ def fitness(genome: Genome, teams: [Team]) -> int:
                 if (match.visiting_team_number == i):
                     localTeam = ''.join(str(e) for e in list(binary_teams[match.local_team_number]))
                     team_string_number = ''.join(str(e) for e in list(team))
+                    print(team_string_number)
                     teams_km[i] += getDistanceTraveled(localTeam, team_string_number)
 
     # 2 Calcular la desviacion estandar

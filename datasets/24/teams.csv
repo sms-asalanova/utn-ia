@@ -1,0 +1,25 @@
+Team,Size,BinaryID,City
+Aldosivi,Pequeño,00001,Mar del Plata
+Argentinos,Pequeño,00010,Buenos Aires
+Arsenal,Pequeño,00011,Sarandi
+Atletico Tucuman,Pequeño,00100,San Miguel de Tucuman
+Banfield,Pequeño,00101,Banfield
+Boca Juniors,Muy Grande,00110,Buenos Aires
+Central Cordoba,Pequeño,00111,Santiago del Estero
+Colon,Pequeño,01000,Santa Fe
+Defensa y Justicia,Pequeño,01001,Florencio Valera
+Estudiantes,Pequeño,01010,La Plata
+Gimnasia y Esgrima,Pequeño,01011,La Plata
+Godoy Cruz,Pequeño,01100,Godoy Cruz
+Huracan,Pequeño,01101,Buenos Aires
+Independiente,Grande,01110,Avellaneda
+Lanus,Pequeño,01111,Lanus
+Newell's Old Boys,Pequeño,10000,Rosario
+Patronato,Pequeño,10001,Parana
+Racing,Grande,10010,Avellaneda
+River Plate,Muy Grande,10011,Buenos Aires
+Rosario Central,Pequeño,10100,Rosario
+San Lorenzo,Grande,10101,Buenos Aires
+Talleres,Pequeño,10110,Cordoba
+Union de Santa Fe,Pequeño,10111,Santa Fe
+Velez Sarsfield,Pequeño,11000,Buenos Aires
