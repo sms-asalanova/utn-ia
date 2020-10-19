@@ -4,6 +4,8 @@ from models.city import City
 from models.team import Team
 from algorithms import genetic as ga
 import pandas as pd 
+from datetime import datetime
+
 
 def get_fechas(path_to_file):
     fechas = []
@@ -72,8 +74,17 @@ if __name__ == "__main__":
     teams = get_teams('datasets/24/teams.csv')
     cities = get_cities('datasets/cities.csv')    
     populate_cities_in_teams(cities,teams)
-
+  
     distances = get_distances('datasets/distances.csv') 
-    population = ga.generate_population(size=10,genome_length=len(teams),teams=teams)
-    for genome in population:
-        ga.fitness(genome,distances)
+    now = datetime.now()
+
+    current_time = now.strftime("%H:%M:%S")
+    print("Init Time =", current_time)
+    population_size = 100000
+    print("population_size:",population_size)
+    population = ga.generate_population(population_size=population_size,genome_length=len(teams),teams=teams)
+    
+    now = datetime.now()
+    current_time = now.strftime("%H:%M:%S")
+    print("Final Time =", current_time)
+    
