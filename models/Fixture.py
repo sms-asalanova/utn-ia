@@ -1,6 +1,6 @@
 class Fixture:
-    def __init__(self, fecha, local,visitante):
-        self.fecha = fecha
+    def __init__(self, date, local,visitante):
+        self.date = date
         self.local = local
         self.visitante = visitante
 
