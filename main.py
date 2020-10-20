@@ -83,15 +83,21 @@ if __name__ == "__main__":
     populate_cities_in_teams(cities,teams)
     distances = get_distances('datasets/distances.csv') 
     create_cities_index(cities,distances)
-
+    print(distances)
     now = datetime.now()
     current_time = now.strftime("%H:%M:%S")
     print("Init Time =", current_time)
-    population_size = 100000
+    population_size = 100
+    max_generations = 10
     print("population_size:",population_size)
-    population = ga.generate_population(population_size=population_size,genome_length=len(teams),teams=teams)
-    ga.run_evolution(fixture,distances,cities, dates,population)
+    next_generation = ga.generate_population(population_size=population_size,genome_length=len(teams),teams=teams)
+    for x in range(max_generations):
+        print('corrida',x)
+        if len(next_generation) == 1:
+            break
+        next_generation = ga.run_generation(fixture,distances,cities, dates,next_generation,teams)
     now = datetime.now()
+    print(next_generation[0].fitness_value)
     current_time = now.strftime("%H:%M:%S")
     print("Final Time =", current_time)
     
