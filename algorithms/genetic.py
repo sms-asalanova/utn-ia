@@ -1,10 +1,11 @@
-from random import choices,sample,shuffle
+from random import choices, sample, shuffle, random
 from copy import deepcopy
 from typing import List
 from models.fixture import Fixture 
 from models.city import City
 from models.team import Team
 import statistics
+import random
 
 Genome = List[Team]
 Population = List[Genome]
@@ -24,7 +25,7 @@ params:
 def fitness(genome: Genome,distances_avg,distances,cities,dates,fixture: Fixture) -> int:
     
     value = 0
-    
+
     #Desvio estandar en ida y vuelta por fecha
     for date in dates:
         for fixture_date in fixture:
@@ -89,20 +90,47 @@ def generate_population(population_size:int, genome_length:int,teams: [Team]) ->
 
 
 """
-selection: selects a subset of the given population
+selection_pair: selects a pair of the given population
 params: 
     population: the population to evaluate
-    genome_length: size of the each genom
 """
-# def selection(population=Population) -> Population:
-#     return choices(
-#         # population=population,
-#         # weights=
-#     )
+def selection_pair(population: Population,distances_avg,distances,cities,dates,fixture: Fixture) -> Population:
+    fitness_result = [-fitness(gene,distances_avg,distances,cities,dates,fixture) for gene in population]
+    pair = random.choices(
+        population=population,
+        weights=fitness_result,
+        k=2
+    )
+    return pair
 
-# def crossover(a: Genome, b:Genome) -> Genome:
+"""
+crossover: cross two elements of the population
+params: 
+    a: element 1
+    b: element 2
+"""
+def crossover(a: Genome, b:Genome) -> Genome:
+    if len(a) != len(b):
+        raise ValueError("Genomes a and b must be of same length")
+    length = len(a)
+    if length < 2:
+        return a, b
 
+    p = (random.randint(1, length)) - 1
+    return a[0:p] + b[p:], b[0:p] + a[p:]
 
+"""
+mutation: mutates a genome according to the given probability
+params: 
+    genome: genome to mutate
+    probability: probability to mutate
+    teams: all possible elements
+"""
+def mutation(genome: Genome, teams: Team, num: int = 1, probability: float = 0.7) -> Genome:
+    for _ in range(num):
+        index = random.randrange(len(genome))
+        genome[index] = genome[index] if random.random() > probability else random.choice(teams)
+    return genome
 
 """
 calculate_distances_average: calculates the average of distances between cities
@@ -134,8 +162,32 @@ params:
     - dates: every date to play a match
     - population: population to evaluate in the evolution
 """
-def run_evolution(fixture, distances, cities, dates,population):
+def run_evolution(fixture, distances, cities, dates,population, generation_limit, teams):
     distances_avg = calculate_distances_average(cities, distances)
-    for genome in population:
-        value = fitness(genome,distances_avg,distances,cities,dates,fixture)
-        print(value)
+
+    for i in range(generation_limit):
+        # Ordena poblacion segun su aptitud para tener los mejores en los primeros indices.
+        population = sorted(population, key=lambda genome: fitness(genome,distances_avg,distances,cities,dates,fixture))
+
+        # Si alcanza el limite de aptitud, termina la evolucion.
+        # if fitness_func(population[0]) <= fitness_limit:
+        #     break
+
+        # Tomo los 2 mejores de la poblacion para que esten en la siguiente iteracion.
+        next_generation = population[0:2]
+
+        # -1 porque al tomar los 2 primeros ya me ahorro una iteracion.
+        for j in range(int(len(population) / 2) - 1):
+            parents = selection_pair(population, distances_avg,distances,cities,dates,fixture)
+            offspring_a, offspring_b = crossover(parents[0], parents[1])
+
+            offspring_a = mutation(offspring_a, teams)
+            offspring_b = mutation(offspring_b, teams)
+            next_generation += [offspring_a, offspring_b]
+
+        population = next_generation
+
+
+    # for genome in population:
+    #     value = fitness(genome,distances_avg,distances,cities,dates,fixture)
+    #     print(value)
