@@ -48,9 +48,13 @@ params:
     fixture: template of a fixture, contains: date, localteam and visitor team
 """
 
-def fitness(genome: Genome,distances_avg,distances,cities,dates,fixture: Fixture) -> int:
+def fitness(genome: Genome,distances_avg,distances,cities,dates,fixture: Fixture, show_kms = False) -> int:
     
     value = 0
+
+    # Reinicio distancias de los equipos
+    for team in genome:
+        team.set_total_distance_traveled(0)
 
     #Desvio estandar en ida y vuelta por fecha
     for date in dates:
@@ -61,26 +65,31 @@ def fitness(genome: Genome,distances_avg,distances,cities,dates,fixture: Fixture
                 for index, city_distance in enumerate(distances[visitante.city.name]):
                     if index == local.city.id:
                         visitante.set_total_distance_traveled(visitante.total_distance_traveled+city_distance*2)
-    
+
     distances_travled_by_team = []
     for team in genome:
         distances_travled_by_team.append(team.total_distance_traveled)
     # stdev = statistics.stdev(data=[10000,10213,12320],xbar=distances_avg)
-    stdev = statistics.stdev(data=distances_travled_by_team,xbar=distances_avg)
+    stdev = statistics.stdev(data=distances_travled_by_team)
     value = value + stdev
 
     distinct_teams_length = len(set(genome))
     if distinct_teams_length != len(genome):
       value += 9999 * len(genome) - distinct_teams_length
-                        
+
     consecutive_matches = consecutive_big_team_matches(genome, fixture)
     value += 1000 * consecutive_matches
 
     for team in genome: # esto hay que sacarlo por lo que hice arriba?
         if team.last_match in ["Boca Juniors", "River Plate"]:
-            value = value - 1 
+            value = value - 1
     #TODO #Si juega vs Boca o River o Visitante
     #TODO #Si juega de visitante vs Racing,Independiente o San Lorenzo
+
+    if show_kms:
+        print(show_kms)
+        print(distances_travled_by_team)
+
     return value
 
 
@@ -155,7 +164,7 @@ params:
     probability: probability to mutate
     teams: all possible elements
 """
-def mutation(genome: Genome, teams: Team, num: int = 1, probability: float = 0.7) -> Genome:
+def mutation(genome: Genome, teams: Team, num: int = 1, probability: float = 0.5) -> Genome:
     for _ in range(num):
         index = random.randrange(len(genome))
         genome[index] = genome[index] if random.random() > probability else random.choice(teams)
@@ -194,20 +203,21 @@ params:
 def run_evolution(fixture, distances, cities, dates,population, generation_limit, teams, population_size):
     distances_avg = calculate_distances_average(cities, distances)
 
+    best_value = 0
     for i in range(generation_limit):
         # Ordena poblacion segun su aptitud para tener los mejores en los primeros indices.
-        population = sorted(population, key=lambda genome: fitness(genome,distances_avg,distances,cities,dates,fixture), reverse=False)
+        population = sorted(population, key=lambda genome: fitness(genome,distances_avg,distances,cities,dates,fixture))
 
         # Si alcanza el limite de aptitud, termina la evolucion.
         # if fitness_func(population[0]) <= fitness_limit:
         #     break
 
         # Tomo los 2 mejores de la poblacion para que esten en la siguiente iteracion.
-        best_quarter_size = math.ceil(population_size/4)
+        best_quarter_size = int(round((population_size/4) / 2.0)) * 2
         next_generation = population[0:best_quarter_size]
 
         # -1 porque al tomar los 2 primeros ya me ahorro una iteracion.
-        for j in range(int(len(population) / 2) - best_quarter_size - 1):
+        for j in range(int(len(population) / 2) - int((best_quarter_size / 2)) ):
             parents = selection_pair(population, distances_avg,distances,cities,dates,fixture)
             offspring_a, offspring_b = crossover(parents[0], parents[1])
 
@@ -217,7 +227,18 @@ def run_evolution(fixture, distances, cities, dates,population, generation_limit
 
         population = next_generation
 
-    print(population[0])
+
+        # if i % 1000 == 0:
+        #     print("Iteracion: " + str(i) + ", Promedio: %f" % (population_fitness(population, fitness_func) / len(population)))
+        #
+        #     # print("Iteracion: " + str(i))
+
+        if best_value != str(fitness(population[0],distances_avg,distances,cities,dates,fixture)):
+            best_value = str(fitness(population[0],distances_avg,distances,cities,dates,fixture))
+            print("Iteracion: " + str(i))
+            print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX Mejor gen: " + str(fitness(population[0],distances_avg,distances,cities,dates,fixture, False)))
+
+    # print(population[0])
     #print(sorted(population[0], key=lambda x: x.name))
     # for genome in population:
     #     value = fitness(genome,distances_avg,distances,cities,dates,fixture)
