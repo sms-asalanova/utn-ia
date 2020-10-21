@@ -33,8 +33,11 @@ def who_played_against_big_teams(genome: Genome, fixture) -> [int]:
 
 def consecutive_big_team_matches(genome: Genome, fixture) -> int:
     who_played = who_played_against_big_teams(genome, fixture)
-    consecutives = [sum(1 for _ in group) for _, group in groupby(who_played)]
-    consecutive_count = len(set(consecutives)) - 1 # si no hay consecutivos, devuelve todo 1 y el set tiene longitud 1
+    consecutive_count = 0
+    for i in range(len(genome) - 3):
+      for team_index in who_played[i * 2:i * 2 + 2]:
+        if team_index in who_played[i * 2 + 2:i * 2 + 4]:
+          consecutive_count += 1
     return consecutive_count
 
 """
