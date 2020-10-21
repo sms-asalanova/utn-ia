@@ -72,8 +72,8 @@ def fitness(genome: Genome,distances_avg,distances,cities,dates,fixture: Fixture
     distances_travled_by_team = []
     for team in genome:
         distances_travled_by_team.append(team.total_distance_traveled)
-    # stdev = statistics.stdev(data=[10000,10213,12320],xbar=distances_avg)
-    stdev = statistics.stdev(data=distances_travled_by_team)
+
+    stdev = statistics.stdev(data=distances_travled_by_team, xbar=distances_avg)
     value = value + stdev
 
     teams_names = []
@@ -88,9 +88,9 @@ def fitness(genome: Genome,distances_avg,distances,cities,dates,fixture: Fixture
     consecutive_matches = consecutive_big_team_matches(genome, fixture)
     value += 1000 * consecutive_matches
 
-    for team in genome: # esto hay que sacarlo por lo que hice arriba?
-        if team.last_match in ["Boca Juniors", "River Plate"]:
-            value = value - 1
+    # for team in genome: # esto hay que sacarlo por lo que hice arriba?
+    #     if team.last_match in ["Boca Juniors", "River Plate"]:
+    #         value = value - 1
     #TODO #Si juega vs Boca o River o Visitante
     #TODO #Si juega de visitante vs Racing,Independiente o San Lorenzo
 
