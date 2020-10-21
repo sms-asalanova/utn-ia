@@ -83,7 +83,7 @@ def fitness(genome: Genome,distances_avg,distances,cities,dates,fixture: Fixture
 
     distinct_teams_length = len(teams_names)
     if distinct_teams_length != len(genome):
-        value += 9999 * len(genome) - distinct_teams_length
+        value += 100 * (len(genome) - distinct_teams_length)
 
     consecutive_matches = consecutive_big_team_matches(genome, fixture)
     value += 1000 * consecutive_matches
@@ -165,6 +165,27 @@ def crossover(a: Genome, b:Genome) -> Genome:
     p = (random.randint(1, length)) - 1
     return a[0:p] + b[p:], b[0:p] + a[p:]
 
+def binomial_crossover(a: Genome, b:Genome) -> Genome:
+    if len(a) != len(b):
+        raise ValueError("Genomes a and b must be of same length")
+    length = len(a)
+    if length < 2:
+        return a, b
+
+    child_1 = []
+    child_2 = []
+
+    for i in range(length):
+        random_number = random.uniform(0, 1)
+        if random_number <= 0.5:
+            child_1.append(a[i])
+            child_2.append(b[i])
+        else:
+            child_1.append(b[i])
+            child_2.append(a[i])
+
+    return child_1, child_2
+
 """
 mutation: mutates a genome according to the given probability
 params: 
@@ -227,7 +248,7 @@ def run_evolution(fixture, distances, cities, dates,population, generation_limit
         # -1 porque al tomar los 2 primeros ya me ahorro una iteracion.
         for j in range(int(len(population) / 2) - int((best_quarter_size / 2)) ):
             parents = selection_pair(population, distances_avg,distances,cities,dates,fixture)
-            offspring_a, offspring_b = crossover(parents[0], parents[1])
+            offspring_a, offspring_b = binomial_crossover(parents[0], parents[1])
 
             offspring_a = mutation(offspring_a, teams)
             offspring_b = mutation(offspring_b, teams)
@@ -235,6 +256,7 @@ def run_evolution(fixture, distances, cities, dates,population, generation_limit
 
         population = next_generation
 
+        # print("Iteracion: " + str(i))
 
         # if i % 1000 == 0:
         #     print("Iteracion: " + str(i) + ", Promedio: %f" % (population_fitness(population, fitness_func) / len(population)))
@@ -248,6 +270,8 @@ def run_evolution(fixture, distances, cities, dates,population, generation_limit
 
     # print(population[0])
     print(sorted(population[0], key=lambda x: x.name))
-    # for genome in population:
-    #     value = fitness(genome,distances_avg,distances,cities,dates,fixture)
-    #     print(value)
+    # teams_names = []
+    # for team in population[0]:
+    #     if team.name not in teams_names:
+    #         teams_names.append(team.name)
+    # print(len(teams_names))
