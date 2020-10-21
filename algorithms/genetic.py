@@ -76,9 +76,14 @@ def fitness(genome: Genome,distances_avg,distances,cities,dates,fixture: Fixture
     stdev = statistics.stdev(data=distances_travled_by_team)
     value = value + stdev
 
-    distinct_teams_length = len(set(genome))
+    teams_names = []
+    for team in genome:
+        if team.name not in teams_names:
+            teams_names.append(team.name)
+
+    distinct_teams_length = len(teams_names)
     if distinct_teams_length != len(genome):
-      value += 9999 * len(genome) - distinct_teams_length
+        value += 9999 * len(genome) - distinct_teams_length
 
     consecutive_matches = consecutive_big_team_matches(genome, fixture)
     value += 1000 * consecutive_matches
@@ -242,7 +247,7 @@ def run_evolution(fixture, distances, cities, dates,population, generation_limit
             print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX Mejor gen: " + str(fitness(population[0],distances_avg,distances,cities,dates,fixture, False)))
 
     # print(population[0])
-    #print(sorted(population[0], key=lambda x: x.name))
+    print(sorted(population[0], key=lambda x: x.name))
     # for genome in population:
     #     value = fitness(genome,distances_avg,distances,cities,dates,fixture)
     #     print(value)
