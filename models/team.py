@@ -10,7 +10,10 @@ class Team:
         self.last_match = last_match
         self.total_distance_traveled = total_distance_traveled
         self.city = city
-    
+
+    def __repr__(self):
+      return self.name
+
     def set_team_id(self,team_id):
         self.id = team_id
 

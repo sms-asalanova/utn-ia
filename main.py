@@ -87,11 +87,11 @@ if __name__ == "__main__":
     now = datetime.now()
     current_time = now.strftime("%H:%M:%S")
     print("Init Time =", current_time)
-    population_size = 10
-    generation_limit = 10
+    population_size = 100
+    generation_limit = 100
     print("population_size:",population_size)
     population = ga.generate_population(population_size=population_size,genome_length=len(teams),teams=teams)
-    ga.run_evolution(fixture,distances,cities, dates,population, generation_limit, teams)
+    ga.run_evolution(fixture,distances,cities, dates,population, generation_limit, teams, population_size)
     now = datetime.now()
     current_time = now.strftime("%H:%M:%S")
     print("Final Time =", current_time)

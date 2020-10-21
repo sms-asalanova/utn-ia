@@ -6,10 +6,36 @@ from models.city import City
 from models.team import Team
 import statistics
 import random
+import math
+from itertools import groupby
 
 Genome = List[Team]
 Population = List[Genome]
 
+
+def find_big_teams(genome: Genome) -> [int]:
+    try:
+      names = [x.name for x in genome]
+      return [names.index('River Plate'), names.index('Boca Juniors')]
+    except ValueError:
+      return [-1, -1]
+
+def who_played_against_big_teams(genome: Genome, fixture) -> [int]:
+    big_teams_indexes = find_big_teams(genome)
+    who_played = []
+    for fixture_date in fixture:
+      if fixture_date.local in big_teams_indexes:
+        who_played.append(fixture_date.visitante)
+      elif fixture_date.visitante in big_teams_indexes:
+        who_played.append(fixture_date.local)
+
+    return who_played
+
+def consecutive_big_team_matches(genome: Genome, fixture) -> int:
+    who_played = who_played_against_big_teams(genome, fixture)
+    consecutives = [sum(1 for _ in group) for _, group in groupby(who_played)]
+    consecutive_count = len(set(consecutives)) - 1 # si no hay consecutivos, devuelve todo 1 y el set tiene longitud 1
+    return consecutive_count
 
 """
 
@@ -30,11 +56,8 @@ def fitness(genome: Genome,distances_avg,distances,cities,dates,fixture: Fixture
     for date in dates:
         for fixture_date in fixture:
             if date == fixture_date.date:
-                for team in genome:
-                    if team.id == fixture_date.local:
-                        local = team
-                    if team.id == fixture_date.visitante:
-                        visitante = team
+                local = genome[fixture_date.local - 1]
+                visitante = genome[fixture_date.visitante - 1]
                 for index, city_distance in enumerate(distances[visitante.city.name]):
                     if index == local.city.id:
                         visitante.set_total_distance_traveled(visitante.total_distance_traveled+city_distance*2)
@@ -45,9 +68,15 @@ def fitness(genome: Genome,distances_avg,distances,cities,dates,fixture: Fixture
     # stdev = statistics.stdev(data=[10000,10213,12320],xbar=distances_avg)
     stdev = statistics.stdev(data=distances_travled_by_team,xbar=distances_avg)
     value = value + stdev
+
+    distinct_teams_length = len(set(genome))
+    if distinct_teams_length != len(genome):
+      value += 9999 * len(genome) - distinct_teams_length
                         
-    #TODO #Agregar penalidad por efrentar a Boca o River de manera consecutiva
-    for team in genome:
+    consecutive_matches = consecutive_big_team_matches(genome, fixture)
+    value += 1000 * consecutive_matches
+
+    for team in genome: # esto hay que sacarlo por lo que hice arriba?
         if team.last_match in ["Boca Juniors", "River Plate"]:
             value = value - 1 
     #TODO #Si juega vs Boca o River o Visitante
@@ -162,22 +191,23 @@ params:
     - dates: every date to play a match
     - population: population to evaluate in the evolution
 """
-def run_evolution(fixture, distances, cities, dates,population, generation_limit, teams):
+def run_evolution(fixture, distances, cities, dates,population, generation_limit, teams, population_size):
     distances_avg = calculate_distances_average(cities, distances)
 
     for i in range(generation_limit):
         # Ordena poblacion segun su aptitud para tener los mejores en los primeros indices.
-        population = sorted(population, key=lambda genome: fitness(genome,distances_avg,distances,cities,dates,fixture))
+        population = sorted(population, key=lambda genome: fitness(genome,distances_avg,distances,cities,dates,fixture), reverse=False)
 
         # Si alcanza el limite de aptitud, termina la evolucion.
         # if fitness_func(population[0]) <= fitness_limit:
         #     break
 
         # Tomo los 2 mejores de la poblacion para que esten en la siguiente iteracion.
-        next_generation = population[0:2]
+        best_quarter_size = math.ceil(population_size/4)
+        next_generation = population[0:best_quarter_size]
 
         # -1 porque al tomar los 2 primeros ya me ahorro una iteracion.
-        for j in range(int(len(population) / 2) - 1):
+        for j in range(int(len(population) / 2) - best_quarter_size - 1):
             parents = selection_pair(population, distances_avg,distances,cities,dates,fixture)
             offspring_a, offspring_b = crossover(parents[0], parents[1])
 
@@ -187,7 +217,8 @@ def run_evolution(fixture, distances, cities, dates,population, generation_limit
 
         population = next_generation
 
-
+    print(population[0])
+    #print(sorted(population[0], key=lambda x: x.name))
     # for genome in population:
     #     value = fitness(genome,distances_avg,distances,cities,dates,fixture)
     #     print(value)
