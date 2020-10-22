@@ -1,9 +1,9 @@
 import csv
-from models.fixture import Fixture 
+from models.fixture import Fixture
 from models.city import City
 from models.team import Team
 from algorithms import genetic as ga
-import pandas as pd 
+import pandas as pd
 from datetime import datetime
 
 
@@ -36,10 +36,10 @@ def get_cities(path_to_file) -> []:
         for c in c_csv:
             city = City(name=c[0],locality=c[1])
             cities.append(city)
-    
+
     return cities
 
-    
+
 def get_teams(path_to_file) -> []:
     teams = []
     with open(path_to_file, 'r') as csvfile:
@@ -73,15 +73,15 @@ def create_cities_index(cities, distances):
     for city in cities:
         for index,dist_city in enumerate(distances['Cities']):
             if city.name == dist_city:
-                city.set_id(index) 
+                city.set_id(index)
 
 if __name__ == "__main__":
     dates = get_fechas('datasets/24/fechas.csv')
     fixture = get_fixture('datasets/24/localVisitante.csv')
     teams = get_teams('datasets/24/teams.csv')
-    cities = get_cities('datasets/cities.csv')    
+    cities = get_cities('datasets/cities.csv')
     populate_cities_in_teams(cities,teams)
-    distances = get_distances('datasets/distances.csv') 
+    distances = get_distances('datasets/distances.csv')
     create_cities_index(cities,distances)
 
     now = datetime.now()
@@ -95,4 +95,3 @@ if __name__ == "__main__":
     now = datetime.now()
     current_time = now.strftime("%H:%M:%S")
     print("Final Time =", current_time)
-
