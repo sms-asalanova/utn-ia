@@ -13,32 +13,46 @@ Genome = List[Team]
 Population = List[Genome]
 
 
-def find_big_teams(genome: Genome) -> [int]:
-    try:
-      names = [x.name for x in genome]
-      return [names.index('River Plate'), names.index('Boca Juniors')]
-    except ValueError:
-      return [-1, -1]
-
-def who_played_against_big_teams(genome: Genome, fixture) -> [int]:
-    big_teams_indexes = find_big_teams(genome)
+def find_team_of_size(genome: Genome, size) -> [int]:
+    return [i for i, x in enumerate(genome) if x.size == size]
+    
+def who_played_against_big_teams(genome: Genome, fixture):
+    big_teams_indexes = find_team_of_size(genome, 'Grande')
+    very_big_teams_indexes = find_team_of_size(genome, 'Muy Grande')
+    all_big_teams = very_big_teams_indexes + big_teams_indexes
     who_played = []
     for fixture_date in fixture:
-      if fixture_date.local in big_teams_indexes:
-        who_played.append(fixture_date.visitante)
-      elif fixture_date.visitante in big_teams_indexes:
-        who_played.append(fixture_date.local)
+      if fixture_date.local in all_big_teams:
+        who_played.append([fixture_date.visitante, 'visitante', fixture_date.local in very_big_teams_indexes])
+      elif fixture_date.visitante in all_big_teams:
+        who_played.append([fixture_date.local, 'local', fixture_date.visitante in very_big_teams_indexes])
 
     return who_played
 
-def consecutive_big_team_matches(genome: Genome, fixture) -> int:
-    who_played = who_played_against_big_teams(genome, fixture)
+def consecutive_big_team_matches(genome: Genome, big_teams_matches) -> int:
     consecutive_count = 0
-    for i in range(len(genome) - 3):
-      for team_index in who_played[i * 2:i * 2 + 2]:
-        if team_index in who_played[i * 2 + 2:i * 2 + 4]:
+    for i in range(len(genome) - 2):
+      for team_index in big_teams_matches[i * 5:i * 5 + 5]:
+        if team_index[0] in [x[0] for x in big_teams_matches[i * 5 + 5:i * 5 + 10]]:
           consecutive_count += 1
     return consecutive_count
+
+
+def required_matches_type_against_very_big_teams(genome: Genome, big_teams_matches) -> int:
+    not_passing_count = 0
+    for team in genome:
+      matches = [x for x in big_teams_matches if x[2]]
+      if (len(matches) != 2 or matches[0][1] == matches[1][1]):
+        not_passing_count += 1
+    return not_passing_count
+
+def required_matches_type_against_big_teams(genome: Genome, big_teams_matches) -> int:
+    not_passing_count = 0
+    for team in genome:
+      matches = [x for x in big_teams_matches if x[2] == False]
+      if len(matches) != 3 or set([matches[0][1], matches[1][1], matches[2][1]]) != 2:
+        not_passing_count += 1
+    return not_passing_count
 
 """
 
@@ -85,8 +99,15 @@ def fitness(genome: Genome,distances_avg,distances,cities,dates,fixture: Fixture
     if distinct_teams_length != len(genome):
         value += 100 * (len(genome) - distinct_teams_length)
 
-    consecutive_matches = consecutive_big_team_matches(genome, fixture)
+    big_teams_matches = who_played_against_big_teams(genome, fixture)
+
+    consecutive_matches = consecutive_big_team_matches(genome, big_teams_matches)
     value += 1000 * consecutive_matches
+
+    #value += 9999 * required_matches_type_against_very_big_teams(genome, big_teams_matches)
+
+    #value += 9999 * required_matches_type_against_big_teams(genome, big_teams_matches)
+
 
     # for team in genome: # esto hay que sacarlo por lo que hice arriba?
     #     if team.last_match in ["Boca Juniors", "River Plate"]:

@@ -87,8 +87,8 @@ if __name__ == "__main__":
     now = datetime.now()
     current_time = now.strftime("%H:%M:%S")
     print("Init Time =", current_time)
-    population_size = 16
-    generation_limit = 100
+    population_size = 30
+    generation_limit = 1000
     print("population_size:",population_size)
     population = ga.generate_population(population_size=population_size,genome_length=len(teams),teams=teams)
     ga.run_evolution(fixture,distances,cities, dates,population, generation_limit, teams, population_size)
