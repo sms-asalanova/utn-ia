@@ -40,20 +40,29 @@ def consecutive_big_team_matches(genome: Genome, big_teams_matches) -> int:
 
 def required_matches_type_against_very_big_teams(genome: Genome, big_teams_matches) -> int:
     not_passing_count = 0
+    team_names = [x.name for x in genome]
     for team in genome:
-      matches = [x for x in big_teams_matches if x[2]]
+      try:
+        team_index = team_names.index(team.name)
+      except:
+        team_index = -1
+      matches = [x for x in big_teams_matches if x[2] and team_index == x[0]]
       if (len(matches) != 2 or matches[0][1] == matches[1][1]):
         not_passing_count += 1
     return not_passing_count
 
 def required_matches_type_against_big_teams(genome: Genome, big_teams_matches) -> int:
     not_passing_count = 0
+    team_names = [x.name for x in genome]
     for team in genome:
-      matches = [x for x in big_teams_matches if x[2] == False]
-      if len(matches) != 3 or set([matches[0][1], matches[1][1], matches[2][1]]) != 2:
+      try:
+        team_index = team_names.index(team.name)
+      except:
+        team_index = -1
+      matches = [x for x in big_teams_matches if x[2] == False and team_index == x[0]]
+      if len(matches) != 3 or set([matches[0][1], matches[1][1], matches[2][1]]) != 2: #TODO parece que el set nunca va a funcionar
         not_passing_count += 1
     return not_passing_count
-
 """
 
 fitness: it tells the fitness of a genome
