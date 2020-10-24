@@ -5,7 +5,10 @@ from models.team import Team
 from algorithms import genetic as ga
 import pandas as pd
 from datetime import datetime
+import matplotlib.animation as animation
+import matplotlib.pyplot as plt
 
+import time
 
 def get_fechas(path_to_file):
     fechas = []
@@ -75,6 +78,9 @@ def create_cities_index(cities, distances):
             if city.name == dist_city:
                 city.set_id(index)
 
+
+
+
 if __name__ == "__main__":
     dates = get_fechas('datasets/24/fechas.csv')
     fixture = get_fixture('datasets/24/localVisitante.csv')
@@ -84,14 +90,19 @@ if __name__ == "__main__":
     distances = get_distances('datasets/distances.csv')
     create_cities_index(cities,distances)
 
+    
     now = datetime.now()
     current_time = now.strftime("%H:%M:%S")
     print("Init Time =", current_time)
-    population_size = 20 #PONER VALOR MULTIPLO DE 2
-    generation_limit = 2000
+    population_size = 10 #PONER VALOR MULTIPLO DE 2
+    generation_limit = 100
     print("population_size:",population_size)
     population = ga.generate_population(population_size=population_size,genome_length=len(teams),teams=teams)
-    ga.run_evolution(fixture,distances,cities, dates,population, generation_limit, teams, population_size)
+    print("INITIAL POPULATION")
+    # ga.run_evolution(fixture,distances,cities, dates,population, generation_limit, teams, population_size)
+    
+    ga.run_evolution_with_graph(fixture,distances,cities, dates,population, generation_limit, teams, population_size)
     now = datetime.now()
     current_time = now.strftime("%H:%M:%S")
     print("Final Time =", current_time)
+    # plt.show()

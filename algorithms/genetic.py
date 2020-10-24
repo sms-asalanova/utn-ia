@@ -8,6 +8,8 @@ import statistics
 import random
 import math
 from itertools import groupby
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
 
 Genome = List[Team]
 Population = List[Genome]
@@ -54,6 +56,7 @@ def required_matches_type_against_big_teams(genome: Genome, big_teams_matches) -
         not_passing_count += 1
     return not_passing_count
 
+
 """
 
 fitness: it tells the fitness of a genome
@@ -88,7 +91,7 @@ def fitness(genome: Genome,distances_avg,distances,cities,dates,fixture: Fixture
         distances_travled_by_team.append(team.total_distance_traveled)
 
     stdev = statistics.stdev(data=distances_travled_by_team, xbar=distances_avg)
-    value = value + stdev
+    value = value + math.ceil(stdev)
 
     teams_names = []
     for team in genome:
@@ -97,7 +100,7 @@ def fitness(genome: Genome,distances_avg,distances,cities,dates,fixture: Fixture
 
     distinct_teams_length = len(teams_names)
     if distinct_teams_length != len(genome):
-        value += 9999 * (len(genome) - distinct_teams_length)
+        value += 1000 * (len(genome) - distinct_teams_length)
 
     big_teams_matches = who_played_against_big_teams(genome, fixture)
 
@@ -197,7 +200,6 @@ def binomial_crossover(a: Genome, b:Genome) -> Genome:
 
     child_1 = []
     child_2 = []
-
     for i in range(length):
         random_number = random.uniform(0, 1)
 
@@ -258,15 +260,15 @@ def selection_population_function(population: [Genome],distances_avg,distances,c
     # TORNEO
     random_list = random.sample(range(0, len(population)), len(population))
     selected_population = []
-
+    population_length = len(population)
     for i in range(int(len(population)/2)):
 
-        fitness_1 = fitness(population[random_list[2 * i]], distances_avg, distances, cities, dates, fixture)
-        fitness_2 = fitness(population[random_list[2 * i + 1]], distances_avg, distances, cities, dates, fixture)
+        fitness_1 = fitness(population[random_list[i]], distances_avg, distances, cities, dates, fixture)
+        fitness_2 = fitness(population[random_list[population_length - i - 1]], distances_avg, distances, cities, dates, fixture)
         if fitness_1 <= fitness_2:
-            selected_population.append(population[random_list[2 * i]])
+            selected_population.append(population[random_list[i]])
         else:
-            selected_population.append(population[random_list[2 * i + 1]])
+            selected_population.append(population[random_list[population_length - i - 1]])
 
     selected_population += selected_population
     return selected_population
@@ -348,9 +350,10 @@ def selection_population_function(population: [Genome],distances_avg,distances,c
 def crossover_population_function(population: [Genome]):
 
     cross_population = []
+    population_length = len(population)
     for i in range(int(len(population) / 2)):
 
-        offspring_a, offspring_b = binomial_crossover(population[i*2], population[i*2+1])
+        offspring_a, offspring_b = binomial_crossover(population[i], population[population_length-i-1])
 
         cross_population.append(offspring_a)
         cross_population.append(offspring_b)
@@ -358,34 +361,59 @@ def crossover_population_function(population: [Genome]):
     return cross_population
 
 
+
+def muatation_deviation_based(population: [Genome], teams:[Team],distances_avg,distances,cities,dates,fixture):
+    fitness_values = []
+    for genome in population:
+        value = fitness(genome,distances_avg,distances,cities,dates,fixture)
+        fitness_values.append(value)
+    std = statistics.stdev(fitness_values)
+    if std < 10:
+        random_number_genome = random.randint(0, len(population)-1)
+        random_number_team = random.randint(0, len(population[0])-1)
+        team = random.choice(teams)
+        mutated_population = population
+        # print("mute",random_number_genome,random_number_team, mutated_population[random_number_genome][random_number_team], "por:",team)
+        mutated_population[random_number_genome][random_number_team] = team
+    else:
+        return population
+    return mutated_population
+
 def mutation_population_function(population: [Genome], teams: Team, num: int = 1, probability: float = 0.7):
     random_number_genome = random.randint(0, len(population)-1)
     random_number_team = random.randint(0, len(population[0])-1)
     mutated_population = population
 
     if random.random() > probability:
-        mutated_population[random_number_genome][random_number_team] = random.choice(teams)
+        team = random.choice(teams)
+        # print("mute",random_number_genome,random_number_team, mutated_population[random_number_genome][random_number_team], "por:",team)
+        mutated_population[random_number_genome][random_number_team] = team
+
 
     return mutated_population
 
-def run_evolution(fixture, distances, cities, dates,population, generation_limit, teams, population_size):
-    distances_avg = calculate_distances_average(cities, distances)
 
+
+
+def run_evolution(fixture, distances, cities, dates,population, generation_limit, teams, population_size):
+    
+  
+    distances_avg = calculate_distances_average(cities, distances)
     best_value = 0
     for i in range(generation_limit):
 
         # SELECCION
         selected_population = selection_population_function(population,distances_avg,distances,cities,dates,fixture)
-
         # CRUZAMIENTO
         cross_population = crossover_population_function(selected_population)
-
-        # MUTACION
+        # # MUTACION
         random_number = random.uniform(0, 1)
         if random_number <= 0.7:
             mutated_population = mutation_population_function(cross_population, teams)
         else:
             mutated_population = cross_population
+      
+        # mutated_population = muatation_deviation_based(cross_population, teams,distances_avg,distances,cities,dates,fixture)
 
         population = mutated_population
 
@@ -395,21 +423,67 @@ def run_evolution(fixture, distances, cities, dates,population, generation_limit
         #     print("Iteracion: " + str(i) + ", Promedio: %f" % (population_fitness(population, fitness_func) / len(population)))
         #
         #     # print("Iteracion: " + str(i))
-
-        lala = sorted(population, key=lambda genome: fitness(genome,distances_avg,distances,cities,dates,fixture))
+        population_print = deepcopy(population)
+        lala = sorted(population_print, key=lambda genome: fitness(genome,distances_avg,distances,cities,dates,fixture))
         lele = []
         for k in range(len(population)):
             lele.append(fitness(lala[k],distances_avg,distances,cities,dates,fixture, False))
         print(lele)
-        if best_value != str(fitness(lala[0],distances_avg,distances,cities,dates,fixture)):
+        if best_value != str(fitness(lala[0],distances_avg,distances,cities,dates,fixture)):            
             best_value = str(fitness(lala[0],distances_avg,distances,cities,dates,fixture))
             print("Iteracion: " + str(i))
-            print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX Mejor gen: " + str(fitness(lala[0],distances_avg,distances,cities,dates,fixture, False)))
+            
+            print("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX Mejor gen: " + (str(fitness(lala[0],distances_avg,distances,cities,dates,fixture, False))),[x.name for x in lala[0]])
 
-    # print(population[0])
+    print(population[0])
     print(sorted(population[0], key=lambda x: x.name))
     teams_names = []
     for team in population[0]:
         if team.name not in teams_names:
             teams_names.append(team.name)
     print(len(teams_names))
+
+
+
+def run_evolution_with_graph(fixture,distances,cities, dates,population, generation_limit, teams, population_size):
+    distances_avg = calculate_distances_average(cities, distances)
+    fig = plt.figure()
+    fig.suptitle('Poblacion:'+str(population_size)+'\n'+'Generaciones:'+str(generation_limit))
+    x,y = [],[]
+    plt.grid()
+    ani = animation.FuncAnimation(fig,animate,fargs=(x,y,),interval=1000)           
+
+    best_value = 0
+    for i in range(generation_limit):
+        #SELECCION
+        selected_population = selection_population_function(population,distances_avg,distances,cities,dates,fixture)
+        # CRUZAMIENTO
+        cross_population = crossover_population_function(selected_population)
+        # # MUTACION
+        random_number = random.uniform(0, 1)
+        if random_number <= 0.7:
+            mutated_population = mutation_population_function(cross_population, teams)
+        else:
+            mutated_population = cross_population
+        population = mutated_population
+        sorted_population = sorted(population, key=lambda genome: fitness(genome,distances_avg,distances,cities,dates,fixture))
+        if best_value != str(fitness(sorted_population[0],distances_avg,distances,cities,dates,fixture)):
+            x.append(i)
+            y.append(fitness(sorted_population[0],distances_avg,distances,cities,dates,fixture))
+    print(population[0])
+    print(sorted(population[0], key=lambda x: x.name))
+    teams_names = []
+    for team in population[0]:
+        if team.name not in teams_names:
+            teams_names.append(team.name)
+    print(len(teams_names))
+
+    plt.show()
+
+
+def animate(i,x,y):
+    plt.cla()
+    plt.grid()
+    plt.xlabel('Vuelta')
+    plt.ylabel('Aptitud')
+    plt.plot(x,y)
