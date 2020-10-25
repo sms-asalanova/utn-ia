@@ -10,6 +10,7 @@ import math
 from itertools import groupby
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+import csv 
 
 Genome = List[Team]
 Population = List[Genome]
@@ -118,9 +119,9 @@ def fitness(genome: Genome,distances_avg,distances,cities,dates,fixture: Fixture
 
     value += 1000 * consecutive_matches
 
-    value += 9999 * required_matches_type_against_very_big_teams(genome, big_teams_matches)
+    value += 1000 * required_matches_type_against_very_big_teams(genome, big_teams_matches)
 
-    value += 9999 * required_matches_type_against_big_teams(genome, big_teams_matches)
+    value += 1000 * required_matches_type_against_big_teams(genome, big_teams_matches)
 
 
     if show_kms:
@@ -452,7 +453,7 @@ def run_evolution_with_graph(fixture,distances,cities, dates,population, generat
     distances_avg = calculate_distances_average(cities, distances)
     fig = plt.figure()
     fig.suptitle('Poblacion:'+str(population_size)+'\n'+'Generaciones:'+str(generation_limit))
-    x,y = [],[]
+    x,y,z = [],[],[]
     plt.grid()
     ani = animation.FuncAnimation(fig,animate,fargs=(x,y,),interval=1000)
 
@@ -463,26 +464,47 @@ def run_evolution_with_graph(fixture,distances,cities, dates,population, generat
         # CRUZAMIENTO
         cross_population = crossover_population_function(selected_population)
         # # MUTACION
+        genomes_fitness = []
+        for genome in cross_population:
+            genome_fitness = fitness(genome, distances_avg, distances, cities, dates, fixture)
+            if genome_fitness not in genomes_fitness:
+                genomes_fitness.append(genome_fitness)
+        probability_mutation = 1 - (len(genomes_fitness) / len(cross_population))
         random_number = random.uniform(0, 1)
-        if random_number <= 0.7:
+        if random_number <= probability_mutation:
             mutated_population = mutation_population_function(cross_population, teams)
         else:
             mutated_population = cross_population
+        if i % 10 == 0:
+            print("Iteracion: " + str(i))
+        
+            # print("Iteracion: " + str(i))
         population = mutated_population
         sorted_population = sorted(population, key=lambda genome: fitness(genome,distances_avg,distances,cities,dates,fixture))
         if best_value != str(fitness(sorted_population[0],distances_avg,distances,cities,dates,fixture)):
             x.append(i)
             y.append(fitness(sorted_population[0],distances_avg,distances,cities,dates,fixture))
+            z.append(sorted_population[0])
     print(population[0])
-    print(sorted(population[0], key=lambda x: x.name))
     teams_names = []
     for team in population[0]:
         if team.name not in teams_names:
             teams_names.append(team.name)
     print(len(teams_names))
-
+    create_csv(x,y,z)
     plt.show()
 
+def create_csv(x,y,z):
+    with open('Corrida3.csv', 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(["Generacion", "Aptitud", "Mejor Gen"])
+        for i in x:
+            row = []
+            row.append(i+1)
+            row.append(y[i])
+            row.append(z[i])
+            writer.writerow(row)
+      
 
 def animate(i,x,y):
     plt.cla()
