@@ -94,8 +94,8 @@ if __name__ == "__main__":
     now = datetime.now()
     current_time = now.strftime("%H:%M:%S")
     print("Init Time =", current_time)
-    population_size = 100 #PONER VALOR MULTIPLO DE 2
-    generation_limit = 1000
+    population_size = 10 #PONER VALOR MULTIPLO DE 2
+    generation_limit = 100
     print("population_size:",population_size)
     population = ga.generate_population(population_size=population_size,genome_length=len(teams),teams=teams)
     print("INITIAL POPULATION")
@@ -103,6 +103,7 @@ if __name__ == "__main__":
     
     ga.run_evolution_with_graph(fixture,distances,cities, dates,population, generation_limit, teams, population_size)
     now = datetime.now()
+ 
     current_time = now.strftime("%H:%M:%S")
     print("Final Time =", current_time)
     # plt.show()

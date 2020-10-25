@@ -69,7 +69,6 @@ def required_matches_type_against_big_teams(genome: Genome, big_teams_matches) -
 
 
 """
-
 fitness: it tells the fitness of a genome
 params:
     genome: the given genome to calculate its fitness
@@ -495,7 +494,7 @@ def run_evolution_with_graph(fixture,distances,cities, dates,population, generat
     plt.show()
 
 def create_csv(x,y,z):
-    with open('Corrida3.csv', 'w', newline='') as file:
+    with open('Corrida4.csv', 'w', newline='') as file:
         writer = csv.writer(file)
         writer.writerow(["Generacion", "Aptitud", "Mejor Gen"])
         for i in x:
