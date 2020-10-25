@@ -374,10 +374,9 @@ def mutation_population_function(population: [Genome], teams: Team, num: int = 1
     random_number_team = random.randint(0, len(population[0])-1)
     mutated_population = population
 
-    if random.random() > probability:
-        team = random.choice(teams)
-        # print("mute",random_number_genome,random_number_team, mutated_population[random_number_genome][random_number_team], "por:",team)
-        mutated_population[random_number_genome][random_number_team] = team
+    team = random.choice(teams)
+
+    mutated_population[random_number_genome][random_number_team] = team
 
 
     return mutated_population
