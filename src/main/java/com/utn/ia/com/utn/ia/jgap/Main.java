@@ -19,6 +19,7 @@ public class Main {
     private static final int POBLACION_SIZE = 4000;
 
     public static void calularFixture() throws InvalidConfigurationException {
+        lastBestFitness = Double.MAX_VALUE;
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd_HHmmss");
         Date date = new Date(System.currentTimeMillis());
         String prefix = formatter.format(date);
@@ -50,6 +51,7 @@ public class Main {
 
     private static PrintWriter printWriterIteration;
     private static PrintWriter printWriterValues;
+    private static double lastBestFitness;
 
     private static void newIteration(String prefix, int i, IChromosome cromosomaMasApto) {
         try{
@@ -59,8 +61,12 @@ public class Main {
                 fileWriter = new FileWriter(prefix + "-values.txt");
                 printWriterValues = new PrintWriter(fileWriter);
             }
-            printWriterIteration.printf(Integer.toString(i) + "\n");
-            printWriterValues.printf(Double.toString(cromosomaMasApto.getFitnessValue()) + "\n");
+            double fit = cromosomaMasApto.getFitnessValue();
+            if (fit < lastBestFitness){
+                printWriterIteration.printf(Integer.toString(i) + "\n");
+                printWriterValues.printf(Double.toString(fit) + "\n");
+                System.out.println("Iteracion " + i + " :" + fit);
+            }
         } catch (Exception e){
             throw new RuntimeException(e);
         }
