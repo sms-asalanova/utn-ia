@@ -17,6 +17,10 @@ public class SuperLigaFitnessFunction extends FitnessFunction {
 
     protected double evaluate(IChromosome iChromosome) {
         FixtureGene gene = (FixtureGene) iChromosome.getGenes()[0];
+        return getValueFor((FixtureGenoma)gene.getInternalValue());
+    }
+
+    public double getValueFor(FixtureGenoma gene) {
         Fixture realFixture = gene.createFixtureFromTemplate(template.cloneFixture());
         Team[] teams = gene.getTeams();
         double fitness = 0;

@@ -2,11 +2,13 @@ package com.utn.ia.com.utn.ia.jgap;
 
 import com.utn.ia.model.Fixture;
 import com.utn.ia.model.Team;
+import org.apache.commons.lang3.RandomUtils;
 import org.jgap.*;
 
 public class FixtureGene extends BaseGene {
 
     private static GenomaRandomGenerator generator = new GenomaRandomGenerator();
+    private static SuperLigaFitnessFunction fitnessFunction = new SuperLigaFitnessFunction();
 
     private FixtureGenoma value;
 
@@ -67,7 +69,14 @@ public class FixtureGene extends BaseGene {
 
     @Override
     public void applyMutation(int index, double a_percentage) {
-        value = value.mutation();
+        FixtureGenoma gen = value;
+        double range = 30 * a_percentage;
+        double iterations = Math.abs(Math.round(range));
+        for(int i = 0; i < iterations; i ++){
+            gen = gen.mutation();
+            gen.moveChange(RandomUtils.nextInt(0, gen.getTeams().length));
+        }
+        setAllele(gen);
     }
 
     @Override
@@ -102,6 +111,7 @@ public class FixtureGene extends BaseGene {
             }
         }
         return value.toString().compareTo(otherGene.value.toString());
+        //return (new Double(fitnessFunction.getValueFor(value))).compareTo(new Double(fitnessFunction.getValueFor(otherGene.value)));
     }
 
     public Fixture createFixtureFromTemplate(Fixture template) {

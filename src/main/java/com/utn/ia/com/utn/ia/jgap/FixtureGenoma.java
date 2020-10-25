@@ -26,6 +26,8 @@ public class FixtureGenoma  {
         }
         mut.teams[nextChange1] = this.teams[nextChange2];
         mut.teams[nextChange2] = this.teams[nextChange1];
+        mut.nextChange1 = nextChange1;
+        mut.nextChange2 = nextChange2;
         mut.nextChange();
         return mut;
     }
@@ -64,7 +66,7 @@ public class FixtureGenoma  {
         }
         sb.append(nextChange1);
         sb.append(",");
-        sb.append(nextChange1);
+        sb.append(nextChange2);
         return sb.toString();
     }
 
@@ -89,5 +91,10 @@ public class FixtureGenoma  {
 
     public Team[] getTeams() {
         return teams;
+    }
+
+    public void moveChange(double movement) {
+        this.nextChange1 = (int) ((this.nextChange1+movement)%(teams.length));
+        this.nextChange2 = (int) ((this.nextChange2+movement)%(teams.length));
     }
 }
