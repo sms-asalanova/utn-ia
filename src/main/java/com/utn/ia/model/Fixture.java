@@ -48,4 +48,19 @@ public class Fixture {
         }
         return new Long(distance);
     }
+
+    public MatchDetail getMatchDetail(String team, String rival){
+        int f = 0;
+        for (Set<Match> fecha : fixture){
+            f++;
+            for (Match m : fecha){
+                if (m.getLocal().getName().equals(team) && m.getVisiting().getName().equals(rival)){
+                    return new MatchDetail(f, true);
+                } else if (m.getLocal().getName().equals(rival) && m.getVisiting().getName().equals(team)){
+                    return new MatchDetail(f, false);
+                }
+            }
+        }
+        throw new RuntimeException("partido inexistente");
+    }
 }

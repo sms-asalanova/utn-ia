@@ -41,4 +41,12 @@ public class Team {
     public String getName() {
         return name;
     }
+
+    public boolean isBig() {
+        return this.size.equals(TeamSize.BIG);
+    }
+
+    public boolean isTooBig(){
+        return this.size.equals(TeamSize.TOOBIG);
+    }
 }

@@ -5,7 +5,8 @@ import org.jgap.impl.DefaultConfiguration;
 
 public class Main {
 
-    private static final int MAX_EVOLUCIONES_PERMITIDAS = 5000;
+    private static final int MAX_EVOLUCIONES_PERMITIDAS = 6000;
+    private static final int POBLACION_SIZE = 800;
 
     public static void calularFixture() throws InvalidConfigurationException {
         Configuration conf = new FixtureConfiguration();
@@ -14,12 +15,16 @@ public class Main {
         conf.setFitnessFunction(myFunc);
         FixtureGene sampleGenes = new FixtureGene (conf, (new GenomaRandomGenerator()).generateRandom());
         IChromosome sampleChromosome = new Chromosome(conf, sampleGenes, 1);
-        conf.setPopulationSize(200);
+        conf.setPopulationSize(POBLACION_SIZE);
         conf.setSampleChromosome(sampleChromosome);
         Genotype poblacion;
         poblacion = Genotype.randomInitialGenotype(conf);
         long TiempoComienzo = System.currentTimeMillis();
         for (int i = 0; i < MAX_EVOLUCIONES_PERMITIDAS; i++) {
+            if (i%20 == 0) {
+                IChromosome cromosomaMasApto = poblacion.getFittestChromosome();
+                System.out.println("Poblacion " + i + ": " + cromosomaMasApto.getFitnessValue());
+            }
             poblacion.evolve();
         }
         long TiempoFin = System.currentTimeMillis();

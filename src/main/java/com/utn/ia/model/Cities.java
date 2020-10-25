@@ -42,9 +42,10 @@ public class Cities {
                 CityDetail cd = new CityDetail();
                 cd.index = Integer.parseInt(fields[0]);
                 cd.city = new City(fields[1]);
+                cd.city.setGrupo(fields[2]);
                 cd.distances = new Integer[10];
                 for (int i = 0; i < 10; i++){
-                    cd.distances[i] = Integer.parseInt(fields[i+2]);
+                    cd.distances[i] = Integer.parseInt(fields[i+3]);
                 }
                 cities.put(fields[1], cd);
             }

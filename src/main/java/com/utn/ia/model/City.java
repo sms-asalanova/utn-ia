@@ -4,6 +4,8 @@ public class City {
 
     private String name;
 
+    private String grupo;
+
     public City(String name){
         this.name = name;
     }
@@ -16,4 +18,11 @@ public class City {
        return Cities.getDistance(this, to);
     }
 
+    public String getGrupo() {
+        return grupo;
+    }
+
+    public void setGrupo(String grupo) {
+        this.grupo = grupo;
+    }
 }
