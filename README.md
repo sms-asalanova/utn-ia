@@ -16,7 +16,12 @@
 ├── main.py    
 ```
 2. Dependencies  
-2.1 [pandas](https://pandas.pydata.org/) version 1.1.3
+2.1 [pandas](https://pandas.pydata.org/) version 1.1.3  
+2.2 [matplotlib](https://matplotlib.org/) version 3.3.2  
+    2.2.1  To test if matplotlib was installed correctly run:
+    ```
+    python3 test.py
+    ```
 
 3. Executing the project
 ```
