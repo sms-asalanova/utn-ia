@@ -2,7 +2,6 @@ package com.utn.ia.com.utn.ia.jgap;
 
 import com.utn.ia.model.Fixture;
 import com.utn.ia.model.Match;
-import com.utn.ia.model.Team;
 import com.utn.ia.utils.FixtureGeneratorFromTemplate;
 import org.jgap.*;
 
@@ -10,13 +9,12 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 public class Main {
 
-    private static final int MAX_EVOLUCIONES_PERMITIDAS = 500;
-    private static final int POBLACION_SIZE = 4000;
+    private static final int MAX_EVOLUCIONES_PERMITIDAS = 700;
+    private static final int POBLACION_SIZE = 5000;
 
     public static void calularFixture() throws InvalidConfigurationException {
         lastBestFitness = Double.MAX_VALUE;
@@ -26,7 +24,8 @@ public class Main {
 
         Configuration conf = new FixtureConfiguration();
         conf.setPreservFittestIndividual(true);
-        FitnessFunction myFunc = new SuperLigaFitnessFunction();
+        SuperLigaFitnessFunction myFunc = new SuperLigaFitnessFunction();
+        myFunc.setPenalidadValue(100);
         conf.setFitnessFunction(myFunc);
         FixtureGene sampleGenes = new FixtureGene (conf, (new GenomaRandomGenerator()).generateRandom());
         IChromosome sampleChromosome = new Chromosome(conf, sampleGenes, 1);
@@ -66,6 +65,7 @@ public class Main {
                 printWriterIteration.printf(Integer.toString(i) + "\n");
                 printWriterValues.printf(Double.toString(fit) + "\n");
                 System.out.println("Iteracion " + i + " :" + fit);
+                lastBestFitness = fit;
             }
         } catch (Exception e){
             throw new RuntimeException(e);
@@ -87,6 +87,7 @@ public class Main {
             }
 
             SuperLigaFitnessFunction fit = new SuperLigaFitnessFunction();
+            fit.setPenalidadValue(100);
             printWriter.printf(fit.printEvaluation(realFixture, gen.getTeams()));
 
             printWriter.close();

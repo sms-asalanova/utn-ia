@@ -14,6 +14,11 @@ import java.util.stream.Collectors;
 public class SuperLigaFitnessFunction extends FitnessFunction {
 
     private Fixture template = FixtureGeneratorFromTemplate.getTemplate();
+    private int penalidadValue = 50;
+
+    public void setPenalidadValue(int penalidadValue) {
+        this.penalidadValue = penalidadValue;
+    }
 
     protected double evaluate(IChromosome iChromosome) {
         FixtureGene gene = (FixtureGene) iChromosome.getGenes()[0];
@@ -79,7 +84,7 @@ public class SuperLigaFitnessFunction extends FitnessFunction {
         sb.append(penalidades[3]);
         sb.append("\n");
 
-        prom += (penalidades[0]+penalidades[1]+penalidades[2]+penalidades[3]) * 50;
+        prom += (penalidades[0]+penalidades[1]+penalidades[2]+penalidades[3]) * penalidadValue;
         sb.append("Total con penalidades  : ");
         sb.append(prom);
         sb.append("\n");
@@ -88,7 +93,7 @@ public class SuperLigaFitnessFunction extends FitnessFunction {
     }
 
     private double penalidades(Team[] teams, Fixture realFixture) {
-        return Arrays.stream(todasPenalidades(teams, realFixture)).reduce(0, (a, b) -> a + b) * 50;
+        return Arrays.stream(todasPenalidades(teams, realFixture)).reduce(0, (a, b) -> a + b) * penalidadValue;
     }
 
     private Integer[] todasPenalidades(Team[] teams, Fixture realFixture) {

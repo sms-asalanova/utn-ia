@@ -1,0 +1,300 @@
+Fecha 1
+Aldosivi-Lanús
+San Lorenzo-Defensa y Justicia
+Arsenal-Godoy Cruz
+Patronato-Colón
+Atlético Tucumán-Unión
+Estudiantes-Argentinos
+Huracán-Rosario Central
+Independiente-Talleres
+Newell's-River
+Boca-Racing
+Banfield-Gimnasia
+Central Córdoba-Vélez
+Fecha 2
+Gimnasia-Aldosivi
+River-Estudiantes
+Godoy Cruz-Patronato
+Lanús-Newell's
+Defensa y Justicia-Banfield
+Vélez-Boca
+Argentinos-San Lorenzo
+Racing-Central Córdoba
+Colón-Atlético Tucumán
+Rosario Central-Independiente
+Talleres-Arsenal
+Unión-Huracán
+Fecha 3
+Aldosivi-Godoy Cruz
+Huracán-Colón
+Newell's-Gimnasia
+Central Córdoba-Argentinos
+Vélez-Racing
+Atlético Tucumán-Defensa y Justicia
+Patronato-Talleres
+Estudiantes-Rosario Central
+Boca-Lanús
+San Lorenzo-Unión
+Arsenal-Banfield
+Independiente-River
+Fecha 4
+Rosario Central-Patronato
+Lanús-Atlético Tucumán
+Colón-Independiente
+Gimnasia-Boca
+Talleres-Estudiantes
+River-Huracán
+Defensa y Justicia-Aldosivi
+Godoy Cruz-Central Córdoba
+Banfield-San Lorenzo
+Unión-Vélez
+Racing-Newell's
+Argentinos-Arsenal
+Fecha 5
+Independiente-Defensa y Justicia
+Vélez-Godoy Cruz
+Arsenal-Gimnasia
+Estudiantes-Colón
+Atlético Tucumán-Banfield
+Huracán-Lanús
+Patronato-Racing
+Newell's-Argentinos
+River-Boca
+Central Córdoba-Unión
+San Lorenzo-Talleres
+Aldosivi-Rosario Central
+Fecha 6
+Rosario Central-Atlético Tucumán
+Boca-Aldosivi
+Gimnasia-Huracán
+Argentinos-Independiente
+Central Córdoba-San Lorenzo
+Unión-Patronato
+Godoy Cruz-Estudiantes
+Lanús-Vélez
+Colón-Arsenal
+Defensa y Justicia-Newell's
+Banfield-Talleres
+Racing-River
+Fecha 7
+Newell's-Colón
+Huracán-Argentinos
+Talleres-Unión
+Estudiantes-Central Córdoba
+River-Rosario Central
+Atlético Tucumán-Godoy Cruz
+Patronato-Lanús
+Aldosivi-Vélez
+Defensa y Justicia-Gimnasia
+Independiente-Banfield
+San Lorenzo-Boca
+Arsenal-Racing
+Fecha 8
+Vélez-Estudiantes
+Racing-Atlético Tucumán
+Boca-Patronato
+Argentinos-River
+Godoy Cruz-Huracán
+Banfield-Aldosivi
+Rosario Central-Arsenal
+Lanús-Talleres
+Gimnasia-San Lorenzo
+Colón-Defensa y Justicia
+Central Córdoba-Newell's
+Unión-Independiente
+Fecha 9
+Rosario Central-Godoy Cruz
+Defensa y Justicia-Argentinos
+Independiente-Lanús
+Aldosivi-Racing
+Arsenal-Boca
+Talleres-Central Córdoba
+Patronato-Gimnasia
+Atlético Tucumán-Huracán
+San Lorenzo-Colón
+Estudiantes-Unión
+Newell's-Banfield
+River-Vélez
+Fecha 10
+Central Córdoba-Defensa y Justicia
+Vélez-Patronato
+Argentinos-Talleres
+Racing-San Lorenzo
+Boca-Independiente
+Lanús-Arsenal
+Godoy Cruz-Newell's
+Banfield-River
+Unión-Rosario Central
+Gimnasia-Atlético Tucumán
+Colón-Aldosivi
+Huracán-Estudiantes
+Fecha 11
+Banfield-Colón
+Aldosivi-Unión
+Estudiantes-Boca
+Defensa y Justicia-Lanús
+Independiente-Gimnasia
+River-Central Córdoba
+Newell's-Huracán
+Atlético Tucumán-Vélez
+Patronato-Argentinos
+San Lorenzo-Arsenal
+Rosario Central-Racing
+Talleres-Godoy Cruz
+Fecha 12
+Unión-Defensa y Justicia
+Argentinos-Aldosivi
+Arsenal-Newell's
+Lanús-River
+Godoy Cruz-San Lorenzo
+Central Córdoba-Atlético Tucumán
+Colón-Rosario Central
+Vélez-Independiente
+Boca-Banfield
+Racing-Estudiantes
+Huracán-Patronato
+Gimnasia-Talleres
+Fecha 13
+Estudiantes-Gimnasia
+Talleres-Atlético Tucumán
+Independiente-Racing
+Aldosivi-Huracán
+River-Unión
+Lanús-Argentinos
+Patronato-Arsenal
+Colón-Vélez
+Defensa y Justicia-Godoy Cruz
+San Lorenzo-Newell's
+Rosario Central-Boca
+Banfield-Central Córdoba
+Fecha 14
+Central Córdoba-Aldosivi
+Unión-Lanús
+Boca-Talleres
+Newell's-Patronato
+Atlético Tucumán-San Lorenzo
+Gimnasia-Rosario Central
+Argentinos-Banfield
+Godoy Cruz-River
+Huracán-Independiente
+Arsenal-Estudiantes
+Vélez-Defensa y Justicia
+Racing-Colón
+Fecha 15
+Colón-Unión
+Independiente-Arsenal
+Defensa y Justicia-Huracán
+Patronato-River
+Aldosivi-Atlético Tucumán
+San Lorenzo-Vélez
+Banfield-Estudiantes
+Rosario Central-Central Córdoba
+Talleres-Racing
+Lanús-Godoy Cruz
+Gimnasia-Argentinos
+Boca-Newell's
+Fecha 16
+Vélez-Rosario Central
+Atlético Tucumán-Patronato
+Unión-Boca
+River-San Lorenzo
+Central Córdoba-Lanús
+Newell's-Aldosivi
+Arsenal-Defensa y Justicia
+Estudiantes-Independiente
+Racing-Banfield
+Argentinos-Colón
+Godoy Cruz-Gimnasia
+Huracán-Talleres
+Fecha 17
+Defensa y Justicia-River
+Banfield-Patronato
+Colón-Central Córdoba
+Argentinos-Rosario Central
+Boca-Godoy Cruz
+Independiente-Atlético Tucumán
+San Lorenzo-Aldosivi
+Unión-Racing
+Talleres-Newell's
+Lanús-Estudiantes
+Gimnasia-Vélez
+Arsenal-Huracán
+Fecha 18
+Godoy Cruz-Unión
+Huracán-Boca
+Atlético Tucumán-Arsenal
+Newell's-Independiente
+River-Colón
+Central Córdoba-Gimnasia
+Vélez-Banfield
+Aldosivi-Talleres
+Estudiantes-Defensa y Justicia
+Racing-Argentinos
+Patronato-San Lorenzo
+Rosario Central-Lanús
+Fecha 19
+Banfield-Huracán
+Gimnasia-Unión
+Newell's-Estudiantes
+Arsenal-Central Córdoba
+San Lorenzo-Rosario Central
+Argentinos-Vélez
+Lanús-Colón
+Talleres-River
+Patronato-Aldosivi
+Boca-Atlético Tucumán
+Defensa y Justicia-Racing
+Independiente-Godoy Cruz
+Fecha 20
+Racing-Lanús
+Atlético Tucumán-Newell's
+Unión-Argentinos
+Central Córdoba-Independiente
+Huracán-San Lorenzo
+Colón-Boca
+Aldosivi-Arsenal
+Vélez-Talleres
+Estudiantes-Patronato
+River-Gimnasia
+Rosario Central-Defensa y Justicia
+Godoy Cruz-Banfield
+Fecha 21
+San Lorenzo-Independiente
+Huracán-Racing
+Newell's-Vélez
+Gimnasia-Lanús
+Banfield-Rosario Central
+Atlético Tucumán-Estudiantes
+Patronato-Central Córdoba
+Godoy Cruz-Argentinos
+Aldosivi-River
+Talleres-Colón
+Arsenal-Unión
+Boca-Defensa y Justicia
+Fecha 22
+Estudiantes-Aldosivi
+Colón-Gimnasia
+Lanús-San Lorenzo
+Rosario Central-Newell's
+Unión-Banfield
+River-Arsenal
+Defensa y Justicia-Talleres
+Central Córdoba-Boca
+Argentinos-Atlético Tucumán
+Independiente-Patronato
+Vélez-Huracán
+Racing-Godoy Cruz
+Fecha 23
+Godoy Cruz-Colón
+Talleres-Rosario Central
+Banfield-Lanús
+Gimnasia-Racing
+Arsenal-Vélez
+Huracán-Central Córdoba
+Boca-Argentinos
+Newell's-Unión
+San Lorenzo-Estudiantes
+Atlético Tucumán-River
+Aldosivi-Independiente
+Patronato-Defensa y Justicia
+
