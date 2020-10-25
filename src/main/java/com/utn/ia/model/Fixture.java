@@ -9,6 +9,10 @@ public class Fixture {
 
     private List<Set<Match>> fixture;
 
+    public List<Set<Match>> getFixture() {
+        return fixture;
+    }
+
     public Fixture(List<Set<Match>> fixture) {
         this.fixture = fixture;
     }
@@ -26,12 +30,16 @@ public class Fixture {
     }
 
     public void setTeam(int idx, Team t){
+        setTeam(Integer.toString(idx), t);
+    }
+
+    public void setTeam(String teamName, Team t){
         for (Set<Match> fecha : fixture){
             for (Match m : fecha){
-                if (m.getLocal().getName().equals(Integer.toString(idx))){
+                if (m.getLocal().getName().equals(teamName)){
                     m.setLocal(t);
                     break;
-                } else if (m.getVisiting().getName().equals(Integer.toString(idx))){
+                } else if (m.getVisiting().getName().equals(teamName)){
                     m.setVisiting(t);
                     break;
                 }

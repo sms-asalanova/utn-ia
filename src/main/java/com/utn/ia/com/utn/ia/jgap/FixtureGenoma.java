@@ -2,10 +2,6 @@ package com.utn.ia.com.utn.ia.jgap;
 
 import com.utn.ia.model.Fixture;
 import com.utn.ia.model.Team;
-import org.jgap.BaseGene;
-
-import java.util.Arrays;
-import java.util.Objects;
 
 public class FixtureGenoma  {
 

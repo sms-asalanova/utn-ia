@@ -1,7 +1,5 @@
 package com.utn.ia.model;
 
-import org.apache.commons.lang.StringUtils;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;

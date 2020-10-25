@@ -65,11 +65,16 @@ public abstract class FixtureGenerator {
         Team t = teams.get(key);
         if (t == null){
             teamSize++;
-            t = new Team(Integer.toString(teamSize));
+            t = new Team(getTeamName(team1));
             teams.put(key, t);
         }
         return t;
     }
+
+    protected String getTeamName(String team){
+        return Integer.toString(teamSize);
+    }
+
     private void closeFecha() {
         if (matchesGroup != null){
             this.fixture.add(matchesGroup);
