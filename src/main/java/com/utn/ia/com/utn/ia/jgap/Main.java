@@ -21,7 +21,7 @@ import java.util.Set;
 
 public class Main {
 
-    private static final int MAX_EVOLUCIONES_PERMITIDAS = 15;
+    private static final int MAX_EVOLUCIONES_PERMITIDAS = 400;
     private static final int POBLACION_SIZE = 3000;
 
     public static void calularFixture() throws InvalidConfigurationException {
