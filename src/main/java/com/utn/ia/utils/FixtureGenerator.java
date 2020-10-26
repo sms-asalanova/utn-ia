@@ -5,9 +5,8 @@ import com.utn.ia.model.Match;
 import com.utn.ia.model.Team;
 import org.apache.commons.lang.StringUtils;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
+import java.net.URL;
 import java.util.*;
 
 public abstract class FixtureGenerator {
@@ -18,9 +17,8 @@ public abstract class FixtureGenerator {
     private int teamSize = 0;
 
 
-    public Fixture readFromFile(File file) {
+    public Fixture readFromFile(InputStreamReader fr) {
         try {
-            FileReader fr = new FileReader(file);
             BufferedReader br = new BufferedReader(fr);
             StringBuffer sb = new StringBuffer();
             String line;
@@ -43,9 +41,9 @@ public abstract class FixtureGenerator {
         }
     }
 
-    protected File getFile(String s) {
+    protected InputStreamReader getFile(String s) {
         try{
-            return new File(getClass().getClassLoader().getResource(s).toURI());
+            return new InputStreamReader(getClass().getClassLoader().getResourceAsStream(s));
         } catch (Exception e){
             throw new RuntimeException(e);
         }

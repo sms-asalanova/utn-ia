@@ -13,8 +13,8 @@ import java.util.Set;
 
 public class Main {
 
-    private static final int MAX_EVOLUCIONES_PERMITIDAS = 700;
-    private static final int POBLACION_SIZE = 5000;
+    private static final int MAX_EVOLUCIONES_PERMITIDAS = 400;
+    private static final int POBLACION_SIZE = 3000;
 
     public static void calularFixture() throws InvalidConfigurationException {
         lastBestFitness = Double.MAX_VALUE;
@@ -38,9 +38,6 @@ public class Main {
             IChromosome cromosomaMasApto = poblacion.getFittestChromosome();
             newIteration(prefix, i, cromosomaMasApto);
             poblacion.evolve();
-            if (i%10==0){
-                System.out.println(i);
-            }
         }
         long TiempoFin = System.currentTimeMillis();
         IChromosome cromosomaMasApto = poblacion.getFittestChromosome();
@@ -50,20 +47,20 @@ public class Main {
 
     private static PrintWriter printWriterIteration;
     private static PrintWriter printWriterValues;
+    private static PrintWriter printWriterCsv;
     private static double lastBestFitness;
 
     private static void newIteration(String prefix, int i, IChromosome cromosomaMasApto) {
         try{
-            if (printWriterIteration==null) {
-                FileWriter fileWriter = new FileWriter(prefix + "-iterations.txt");
-                printWriterIteration = new PrintWriter(fileWriter);
-                fileWriter = new FileWriter(prefix + "-values.txt");
-                printWriterValues = new PrintWriter(fileWriter);
+            if (printWriterCsv==null) {
+                FileWriter fileWriter = new FileWriter(prefix + "-exec.csv");
+                printWriterCsv = new PrintWriter(fileWriter);
             }
             double fit = cromosomaMasApto.getFitnessValue();
+            printWriterCsv.print(Integer.toString(i) + ",");
+            printWriterCsv.print(Double.toString(fit) + ",");
+            printWriterCsv.print(cromosomaMasApto.getGenes()[0].getAllele().toString() + "\n");
             if (fit < lastBestFitness){
-                printWriterIteration.printf(Integer.toString(i) + "\n");
-                printWriterValues.printf(Double.toString(fit) + "\n");
                 System.out.println("Iteracion " + i + " :" + fit);
                 lastBestFitness = fit;
             }
@@ -80,19 +77,20 @@ public class Main {
             PrintWriter printWriter = new PrintWriter(fileWriter);
             int groupNumber = 1;
             for(Set<Match> matchesGroup  : realFixture.getFixture()){
-                printWriter.printf("Fecha %d\n\r", groupNumber++);
+                printWriter.printf("Fecha %d\n", groupNumber++);
                 for(Match m : matchesGroup){
-                    printWriter.printf("%s-%s\n\r", m.getLocal().getName(), m.getVisiting().getName());
+                    printWriter.printf("%s-%s\n", m.getLocal().getName(), m.getVisiting().getName());
                 }
             }
 
             SuperLigaFitnessFunction fit = new SuperLigaFitnessFunction();
             fit.setPenalidadValue(100);
-            printWriter.printf(fit.printEvaluation(realFixture, gen.getTeams()));
+            String s = fit.printEvaluation(realFixture, gen.getTeams());
+            printWriter.printf(s);
+            System.out.println(s);
 
             printWriter.close();
-            printWriterIteration.close();
-            printWriterValues.close();
+            printWriterCsv.close();
         } catch (Exception e){
             throw new RuntimeException(e);
         }

@@ -2,9 +2,8 @@ package com.utn.ia.model;
 
 import org.apache.commons.lang.StringUtils;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
+import java.net.URL;
 import java.util.*;
 
 public class Teams {
@@ -13,9 +12,9 @@ public class Teams {
 
     public Map<String, Team> teams;
 
-    private File getFile() {
+    private InputStreamReader getFile() {
         try{
-            return new File(getClass().getClassLoader().getResource("teams").toURI());
+            return new InputStreamReader(getClass().getClassLoader().getResourceAsStream("teams"));
         } catch (Exception e){
             throw new RuntimeException(e);
         }
@@ -24,8 +23,7 @@ public class Teams {
     private void init(){
         try {
             teams = new HashMap<>();
-            FileReader fr = new FileReader(getFile());
-            BufferedReader br = new BufferedReader(fr);
+            BufferedReader br = new BufferedReader(getFile());
             StringBuffer sb = new StringBuffer();
             String line;
             while ((line = br.readLine()) != null) {
@@ -35,7 +33,7 @@ public class Teams {
                     teams.put(fields[0], t);
                 }
             }
-            fr.close();
+            br.close();
         } catch (Exception e){
             throw new RuntimeException(e);
         }

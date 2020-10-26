@@ -1,8 +1,7 @@
 package com.utn.ia.model;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,9 +11,9 @@ public class Cities {
 
     public Map<String,CityDetail> cities;
 
-    private File getFile() {
+    private InputStreamReader getFile() {
         try{
-            return new File(getClass().getClassLoader().getResource("cities").toURI());
+            return new InputStreamReader(getClass().getClassLoader().getResourceAsStream("cities"));
         } catch (Exception e){
             throw new RuntimeException(e);
         }
@@ -31,8 +30,7 @@ public class Cities {
     private void init(){
         try {
             cities = new HashMap<>();
-            FileReader fr = new FileReader(getFile());
-            BufferedReader br = new BufferedReader(fr);
+            BufferedReader br = new BufferedReader(getFile());
             StringBuffer sb = new StringBuffer();
             String line;
             while ((line = br.readLine()) != null) {
@@ -47,7 +45,7 @@ public class Cities {
                 }
                 cities.put(fields[1], cd);
             }
-            fr.close();
+            br.close();
         } catch (Exception e){
             throw new RuntimeException(e);
         }

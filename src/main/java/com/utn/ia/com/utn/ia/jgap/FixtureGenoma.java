@@ -56,13 +56,12 @@ public class FixtureGenoma  {
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
+        sb.append("[");
         for (Team t: teams){
             sb.append(t.getName());
             sb.append(",");
         }
-        sb.append(nextChange1);
-        sb.append(",");
-        sb.append(nextChange2);
+        sb.append("]");
         return sb.toString();
     }
 
